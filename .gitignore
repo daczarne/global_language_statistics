@@ -37,3 +37,9 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# API keys
+credentials.R
+
+# Data file
+*.rds
