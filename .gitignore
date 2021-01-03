@@ -38,8 +38,19 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# API keys
-credentials.R
+# Credentials
+**/*credentials*.*
+**/*token*.*
+**/*password*.*
 
 # Data file
 *.rds
+*.csv
+
+# Analysis
+analysis/api_dashboard.html
+
+# Mac files
+.DS_Store
+.vscode
+language_distribution.png

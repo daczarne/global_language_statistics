@@ -1,0 +1,148 @@
+---
+title: "GitHub API"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+    theme: bootstrap
+---
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  eval = TRUE,
+  comment = ""
+)
+knitr::knit_hooks$set(inline = function(x) {
+  
+  if (base::is.numeric(x)) {
+    
+    return(base::prettyNum(x, big.mark = big_mark, decimal.mark = decimal_mark))
+    
+  } else {
+    
+    return(x)
+    
+  }
+  
+})
+```
+
+```{r load_libraries}
+library(magrittr, warn.conflicts = FALSE)
+```
+
+```{r assets}
+source(
+   file = here::here("assets", "language_colors.R"),
+   encoding = "UTF-8",
+   local = TRUE
+)
+```
+
+```{r global_variables}
+## Numeric formats
+integer_precision <- 0L
+percentage_precision <- 2L
+
+## Icons
+github_icon <- "fa-github-square"
+private_repo_icon <- "fa-lock"
+archived_repo_icon <- "fa-archive"
+
+r_icon <- "fab fa-r-project"
+markdown_icon <- "fab fa-markdown"
+python_icon <- "fab fa-python"
+css_icon <- "fab fa-css3-alt"
+rust_icon <- "fab fa-rust"
+javascript_icon <- "fab fa-js-square"
+java_icon <- "fab fa-java"
+html_icon <- "fab fa-htlm5-alt"
+docker_icon <- "fab fa-docker"
+swift_icon <- "fab fa-swift"
+
+other_language_icon <- "fas fa-file-code"
+
+icons_vct <- base::c(
+   "R" = r_icon,
+   "Markdown" = markdown_icon,
+   "Python" = python_icon,
+   "CSS" = css_icon,
+   "Rust" = rust_icon,
+   "JavaScript" = javascript_icon,
+   "Java" = java_icon,
+   "HTML" = html_icon,
+   "Docker" = docker_icon,
+   "Swift" = swift_icon
+)
+
+## Colors
+colors_vct <- language_colors[["color"]]
+base::names(colors_vct) <- language_colors[["language"]]
+```
+
+```{r load_data}
+languages <- readr::read_csv(
+   file = here::here("data", "languages.csv")
+)
+```
+
+```{r functions}
+# Zero if empty
+`%|||%` <- function(x, y) base::ifelse(rlang::is_empty(x), y, x)
+
+set_language_icon <- function(.data) {
+   
+   icon <- dplyr::case_when(
+      .data[["language"]] == "R" ~ r_icon,
+      .data[["language"]] == "Markdown" ~ markdown_icon,
+      .data[["language"]] == "Python" ~ python_icon,
+      .data[["language"]] == "CSS" ~ css_icon,
+      .data[["language"]] == "Rust" ~ rust_icon,
+      .data[["language"]] == "JavaScript" ~ javascript_icon,
+      .data[["language"]] == "Java" ~ java_icon,
+      .data[["language"]] == "HTML" ~ html_icon,
+      .data[["language"]] %in% base::c("Docker", "Dockerfile") ~ docker_icon,
+      TRUE ~ other_language_icon
+   )
+   
+   return(icon)
+   
+}
+```
+
+```{r, eval=TRUE}
+do_overview <- TRUE
+do_languages <- FALSE
+```
+
+<!-- Overview -->
+
+```{r overview, eval=do_overview, results='asis'}
+base::cat(base::paste0('
+<i class="fas fa-globe"></i> &nbsp; Overview {data-orientation=rows}
+=======================================================================
+')
+)
+```
+
+```{r, eval=do_overview, child='overview.Rmd'}
+```
+
+<!-- Language -->
+
+```{r languages, eval=do_languages, results='asis'}
+base::cat(base::paste0('
+<i class="fas fa-code"></i> &nbsp; Language {data-orientation=rows}
+=======================================================================
+')
+)
+```
+
+```{r, eval=do_languages, child='languages.Rmd'}
+```
+

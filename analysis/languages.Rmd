@@ -1,0 +1,98 @@
+
+```{r, eval=TRUE}
+do_lang <- "R"
+language_use <- languages %>%
+   dplyr::filter(
+      language == do_lang
+   ) %>%
+   dplyr::mutate(
+      prop_size = size / base::sum(size, na.rm = TRUE),
+      repo_name = forcats::as_factor(repo_name),
+      repo_name = forcats::fct_reorder(
+         .f = repo_name,
+         .x = prop_size
+      )
+   )
+```
+
+Row
+-----------------------------------------------------------------------
+
+   ### Total number of repositories
+
+   ```{r, eval=TRUE}
+flexdashboard::valueBox(
+   value = formattable::comma(
+      x = dplyr::n_distinct(language_use[["repo_name"]], na.rm = TRUE),
+      digits = integer_precision
+   ),
+   icon = base::ifelse(do_lang %in% base::names(icons_vct), icons_vct[[do_lang]], other_language_icon),
+   color = colors_vct[[do_lang]]
+)
+```
+
+### Total size
+
+```{r, eval=TRUE}
+flexdashboard::valueBox(
+   value = formattable::comma(
+      x = base::sum(language_use[["size"]], na.rm = TRUE),
+      digits = integer_precision
+   ),
+   icon = base::ifelse(do_lang %in% base::names(icons_vct), icons_vct[[do_lang]], other_language_icon),
+   color = colors_vct[[do_lang]]
+)
+```
+
+Row
+-----------------------------------------------------------------------
+
+   ### Language use
+
+   ```{r, eval=TRUE}
+languages %>%
+   dplyr::filter(
+      language == do_lang
+   ) %>%
+   dplyr::mutate(
+      prop_size = size / base::sum(size, na.rm = TRUE),
+      repo_name = forcats::as_factor(repo_name),
+      repo_name = forcats::fct_reorder(
+         .f = repo_name,
+         .x = prop_size
+      )
+   ) %>%
+   plotly::plot_ly() %>%
+   plotly::add_trace(
+      x = ~prop_size,
+      y = ~repo_name,
+      type = "bar",
+      marker = base::list(
+         color = colors_vct[[do_lang]]
+      ),
+      hovertemplate = ~base::paste0(
+         base::paste0("<b>", repo_name, "</b>"),
+         "<br>",
+         "<b>Share:</b> ",
+         formattable::percent(
+            x = prop_size,
+            digits = percentage_precision
+         ),
+         "<extra></extra>"
+      )
+   ) %>%
+   plotly::layout(
+      xaxis = base::list(
+         title = NA,
+         tickformat = "%"
+      ),
+      yaxis = base::list(
+         title = NA
+      ),
+      paper_bgcolor = "#f5f5f5",
+      plot_bgcolor = "#f5f5f5"
+   ) %>%
+   plotly::config(
+      displayModeBar = FALSE
+   )
+```

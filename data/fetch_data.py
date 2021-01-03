@@ -1,0 +1,56 @@
+from github import Github
+import json
+import requests
+import pandas as pd
+
+
+with open("data/credentials.json", "r") as file:
+  auth = json.load(file)
+
+
+gh = Github(auth["pat"])
+
+
+repo_name = []
+is_private = []
+created_date = []
+is_archived = []
+languages = []
+
+
+for repo in gh.get_user().get_repos():
+  im_owner = repo.owner.login == auth["user_name"]
+  if im_owner and not repo.fork:
+    print(f"Fetching data for repo {repo.name}")
+    repo_name.append(repo.name)
+    is_private.append(repo.private)
+    created_date.append(repo.created_at)
+    is_archived.append(repo.archived)
+    languages_data = requests.get(
+      repo.languages_url,
+      auth = (auth["user_name"], auth["pat"])
+    ).json()
+    languages.append({
+      "repo_name": repo.name,
+      "L": list(languages_data.keys()),
+      "S": list(languages_data.values())
+    })
+
+
+df_data = {
+  "repo_name": repo_name,
+  "is_private": is_private,
+  "created_date": created_date,
+  "is_archived": is_archived
+}
+
+df = pd.DataFrame(df_data)
+lang_df = pd.json_normalize(languages).explode(list("LS")).rename(columns = {"L": "language", "S": "size"})
+
+df = df.merge(
+  lang_df,
+  how = "left",
+  on = "repo_name"
+)
+
+df.to_csv("data/languages.csv", index = False)
