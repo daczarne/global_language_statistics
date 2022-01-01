@@ -102,5 +102,5 @@ for i in range(lang_props.shape[0]):
 ax.axis("off")
 fig.patch.set_facecolor("#181a1f")
 
-fig.savefig("data/languages_plot.png", dpi = 200, bbox_inches = "tight")
+fig.savefig("analysis/languages_plot.png", dpi = 200, bbox_inches = "tight")
 plt.clf()
