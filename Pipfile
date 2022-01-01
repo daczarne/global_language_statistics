@@ -9,6 +9,7 @@ requests = "*"
 pandas = "*"
 pyyaml = "*"
 matplotlib = "*"
+numpy = "*"
 
 [dev-packages]
 ipykernel = "*"
