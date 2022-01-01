@@ -138,6 +138,7 @@ dmypy.json
 
 # Analysis
 analysis/api_dashboard.html
+languages_plot.png
 
 # Mac files
 .DS_Store
