@@ -3,20 +3,20 @@ import json
 import requests
 import pandas as pd
 
-
+#* Fetches credentials
 with open("data/credentials.json", "r") as file:
   auth = json.load(file)
 
-
+#* Creates GitHub client
 gh = Github(auth["pat"])
 
 
+#* Fetches repos languages data
 repo_name = []
 is_private = []
 created_date = []
 is_archived = []
 languages = []
-
 
 for repo in gh.get_user().get_repos():
   im_owner = repo.owner.login == auth["user_name"]
@@ -36,7 +36,6 @@ for repo in gh.get_user().get_repos():
       "S": list(languages_data.values())
     })
 
-
 df_data = {
   "repo_name": repo_name,
   "is_private": is_private,
@@ -53,4 +52,5 @@ df = df.merge(
   on = "repo_name"
 )
 
+#* Saves CSV with data
 df.to_csv("data/languages.csv", index = False)

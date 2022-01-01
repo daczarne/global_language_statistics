@@ -1,12 +1,12 @@
-# Global language statistics
+# Personal language statistics
 
 ![stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)
 
-Builds a plot of all used languages by a given GitHub user. The plot displays percentage of code (as linguist does) and the number of repos in which each language has been used. If you wish to use this project, you'll have to register your own GitHub PAT. After that create a file called `credentials.json` in the `data` directory with the following:
+Builds a linguist-style plot of all languages used in your repositories. You can read more about the default linguist behavior [here](https://github.com/github/linguist). The program will skip repositories that you are not the owner of, and forked repositories. If you wish to use this project, you'll have to register your own GitHub PAT. After that create a file called `credentials.json` in the `data` directory with the following:
 
 ``` json
 {
-  "user_name": "the_github_user_name",
+  "user_name": "your_github_user_name",
   "pat": "personal_access_token"
 }
 ```

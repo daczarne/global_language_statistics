@@ -7,8 +7,12 @@ name = "pypi"
 pygithub = "*"
 requests = "*"
 pandas = "*"
+pyyaml = "*"
+matplotlib = "*"
+numpy = "*"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.7"
