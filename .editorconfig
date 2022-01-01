@@ -1,0 +1,25 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = crlf
+insert_final_newline = true
+
+
+# Python
+# Set default charset
+[*.{py}]
+charset = utf-8
+
+# 2 space tab indentation
+[*.py]
+indent_style = tab
+indent_size = 2
+
+
+# YAML
+# 2 space indentation
+[*.yaml]
+indent_style = space
+indent_size = 2
