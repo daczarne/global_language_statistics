@@ -6,17 +6,15 @@ root = true
 end_of_line = crlf
 insert_final_newline = true
 
-
 # Python
 # Set default charset
 [*.{py}]
 charset = utf-8
 
-# 2 space tab indentation
+# 2 space indentation
 [*.py]
-indent_style = tab
-indent_size = 2
-
+indent_style = space
+indent_size = 4
 
 # YAML
 # 2 space indentation
