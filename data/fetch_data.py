@@ -19,8 +19,11 @@ is_archived = []
 languages = []
 
 for repo in gh.get_user().get_repos():
+    
     im_owner = repo.owner.login == auth["user_name"]
+    
     if im_owner and not repo.fork:
+        
         print(f"Fetching data for repo {repo.name}")
         repo_name.append(repo.name)
         is_private.append(repo.private)
